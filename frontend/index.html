@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>&#26631;&#27880;&#24037;&#20316;&#21488; MVP</title>
+    <link rel="stylesheet" href="/assets/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">&#26631;&#27880;&#24037;&#20316;&#21488; MVP</p>
+          <h1>&#24038;&#20391;&#25991;&#26412;&#21015;&#34920;&#65292;&#21491;&#20391;&#19978;&#19979;&#20998;&#21306;&#23436;&#25104;&#26631;&#27880;&#12290;</h1>
+        </div>
+        <div class="topbar-actions">
+          <button id="refresh-projects" class="ghost-button">&#21047;&#26032;&#39033;&#30446;</button>
+        </div>
+      </header>
+
+      <section class="overview-shell">
+        <div class="overview-card">
+          <div class="section-head">
+            <h2>&#39033;&#30446;</h2>
+            <div id="selected-project" class="pill">&#23578;&#26410;&#36873;&#25321;&#39033;&#30446;</div>
+          </div>
+          <form id="project-form" class="stack-form">
+            <input name="name" type="text" placeholder="&#39033;&#30446;&#21517;&#31216;" required />
+            <textarea name="description" rows="2" placeholder="&#39033;&#30446;&#25551;&#36848;"></textarea>
+            <div class="split-actions">
+              <button id="project-submit-button" type="submit">&#21019;&#24314;&#39033;&#30446;</button>
+              <button id="project-cancel-button" type="button" class="ghost-button hidden">&#21462;&#28040;&#32534;&#36753;</button>
+            </div>
+          </form>
+          <div id="project-list" class="project-strip"></div>
+        </div>
+
+        <div class="overview-card">
+          <div class="section-head">
+            <h2>&#39033;&#30446;&#32479;&#35745;</h2>
+            <span class="mini-hint">&#23454;&#26102;&#21453;&#26144;&#24403;&#21069;&#36827;&#24230;</span>
+          </div>
+          <div id="stats-grid" class="stats-grid empty-state">
+            &#35831;&#20808;&#36873;&#25321;&#39033;&#30446;&#12290;
+          </div>
+        </div>
+      </section>
+
+      <main class="workbench two-column-workbench">
+        <aside class="pane pane-left">
+          <div class="pane-card">
+            <div class="section-head">
+              <h2>&#25991;&#26412;&#21015;&#34920;</h2>
+              <span class="mini-hint">&#28857;&#20987;&#19968;&#26465;&#25991;&#26412;&#24320;&#22987;&#26631;&#27880;</span>
+            </div>
+            <div class="list-toolbar">
+              <select id="item-status-filter">
+                <option value="all">&#20840;&#37096;&#29366;&#24577;</option>
+                <option value="pending">&#24453;&#22788;&#29702;</option>
+                <option value="predicted">&#24050;&#39044;&#27979;</option>
+                <option value="annotated">&#24050;&#26631;&#27880;</option>
+              </select>
+              <div id="item-count-tip" class="mini-hint">0 / 0</div>
+            </div>
+            <form id="item-form" class="stack-form">
+              <textarea
+                name="items"
+                rows="6"
+                placeholder="&#25903;&#25345;&#25163;&#21160;&#31896;&#36148;&#25209;&#37327;&#25991;&#26412;&#65292;&#27599;&#34892;&#19968;&#26465;&#12290;&#25110;&#19979;&#26041;&#36873;&#25321; txt/csv/json &#25991;&#20214;"
+              ></textarea>
+              <input name="import_file" id="item-import-file" type="file" accept=".txt,.csv,.json" />
+              <input name="source" type="text" placeholder="&#26469;&#28304;&#25991;&#20214;&#21517;" />
+              <div class="split-actions">
+                <button id="preview-import-button" type="button" class="ghost-button">&#35299;&#26512;&#39044;&#35272;</button>
+                <button type="submit">&#30830;&#35748;&#23548;&#20837;</button>
+              </div>
+            </form>
+            <div id="item-import-preview" class="import-preview empty-state">
+              &#35831;&#20808;&#36755;&#20837;&#25991;&#26412;&#25110;&#36873;&#25321; txt/csv/json &#25991;&#20214;&#65292;&#20877;&#28857;&#20987;&#35299;&#26512;&#39044;&#35272;&#12290;
+            </div>
+            <div class="split-actions">
+              <button id="clear-import-preview-button" type="button" class="ghost-button">&#28165;&#31354;&#39044;&#35272;</button>
+              <button id="reset-import-file-button" type="button" class="ghost-button">&#37325;&#36873;&#25991;&#20214;</button>
+            </div>
+            <div id="item-list" class="item-list"></div>
+          </div>
+        </aside>
+
+        <section class="pane pane-main">
+          <div class="main-stack">
+            <div class="pane-card content-viewer">
+              <div class="section-head">
+                <h2>&#24403;&#21069;&#25991;&#26412;</h2>
+                <div id="item-status" class="status-badge">&#26410;&#36873;&#25321;</div>
+              </div>
+              <div class="nav-row">
+                <button id="prev-item-button" type="button" class="ghost-button nav-button">&#19978;&#19968;&#26465;</button>
+                <button id="next-item-button" type="button" class="ghost-button nav-button">&#19979;&#19968;&#26465;</button>
+              </div>
+              <div class="content-meta">
+                <span id="item-id-label">ID: -</span>
+                <span id="item-source-label">&#26469;&#28304;: -</span>
+              </div>
+              <article id="item-preview" class="content-preview empty-state">
+                &#35831;&#20808;&#20174;&#24038;&#20391;&#36873;&#25321;&#19968;&#26465;&#25991;&#26412;&#12290;
+              </article>
+            </div>
+
+            <div class="pane-card action-panel">
+              <div class="section-head">
+                <h2>&#21151;&#33021;&#38754;&#26495;</h2>
+                <span class="mini-hint">&#21491;&#19979;&#22235;&#20010;&#21306;&#22359;&#23545;&#24212;&#22235;&#39033;&#25805;&#20316;</span>
+              </div>
+
+              <div class="action-grid">
+                <section class="tool-card">
+                  <div class="tool-title-row">
+                    <h3>&#20154;&#24037;&#26631;&#27880;</h3>
+                  </div>
+                  <form id="annotation-form" class="stack-form">
+                    <select id="annotation-label-id" name="label_id" required></select>
+                    <div class="role-row">
+                      <select id="annotator-select" name="annotator_preset"></select>
+                      <input name="annotator_name" type="text" placeholder="&#26032;&#30340;&#26631;&#27880;&#20154;&#21517;&#31216;&#65288;&#21487;&#36873;&#65289;" />
+                    </div>
+                    <textarea name="notes" rows="3" placeholder="&#22791;&#27880;"></textarea>
+                    <button type="submit">&#30830;&#35748;&#26631;&#27880;</button>
+                  </form>
+                  <div id="label-buttons" class="label-button-grid"></div>
+                  <div class="mini-hint quick-hint">&#28857;&#20987;&#24555;&#25463;&#26631;&#31614;&#21487;&#30452;&#25509;&#26631;&#27880;</div>
+                  <div id="annotation-detail" class="annotation-detail empty-state">
+                    &#35831;&#20808;&#36873;&#25321;&#19968;&#26465;&#26631;&#27880;&#12290;
+                  </div>
+                  <div id="annotation-list" class="record-list"></div>
+                </section>
+
+                <section class="tool-card">
+                  <div class="tool-title-row">
+                    <h3>AI &#39044;&#27979;</h3>
+                  </div>
+                  <form id="prediction-form" class="stack-form">
+                    <select id="prediction-label-id" name="label_id" required></select>
+                    <input name="model_name" type="text" placeholder="&#27169;&#22411;&#21517;&#31216;" required />
+                    <input
+                      name="confidence"
+                      type="number"
+                      placeholder="&#32622;&#20449;&#24230; 0-1"
+                      min="0"
+                      max="1"
+                      step="0.01"
+                    />
+                    <button type="submit">&#20445;&#23384;&#39044;&#27979;</button>
+                  </form>
+                  <div id="prediction-list" class="record-list"></div>
+                </section>
+
+                <section class="tool-card">
+                  <div class="tool-title-row">
+                    <h3>&#26631;&#31614;&#31649;&#29702;</h3>
+                  </div>
+                  <form id="label-form" class="stack-form">
+                    <input name="name" type="text" placeholder="&#26631;&#31614;&#21517;&#31216;" required />
+                    <input name="color" type="text" placeholder="&#39068;&#33394;" />
+                    <textarea name="description" rows="2" placeholder="&#26631;&#31614;&#35828;&#26126;"></textarea>
+                    <button type="submit">&#28155;&#21152;&#26631;&#31614;</button>
+                  </form>
+                  <div id="label-list" class="record-list"></div>
+                </section>
+
+                <section class="tool-card">
+                  <div class="tool-title-row">
+                    <h3>&#22797;&#26680;&#36136;&#26816;</h3>
+                  </div>
+                  <form id="review-form" class="stack-form">
+                    <select id="review-annotation-id" name="annotation_id" required></select>
+                    <div class="role-row">
+                      <select id="reviewer-select" name="reviewer_preset"></select>
+                      <input name="reviewer_name" type="text" placeholder="&#26032;&#30340;&#22797;&#26680;&#20154;&#21517;&#31216;&#65288;&#21487;&#36873;&#65289;" />
+                    </div>
+                    <select name="is_approved">
+                      <option value="true">&#36890;&#36807;</option>
+                      <option value="false">&#39539;&#22238;</option>
+                    </select>
+                    <textarea name="comment" rows="3" placeholder="&#22797;&#26680;&#24847;&#35265;"></textarea>
+                    <button type="submit">&#28155;&#21152;&#22797;&#26680;</button>
+                  </form>
+                  <div id="review-list" class="record-list"></div>
+                </section>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="toast" class="toast hidden"></div>
+    <script src="/assets/app.js"></script>
+  </body>
+</html>
